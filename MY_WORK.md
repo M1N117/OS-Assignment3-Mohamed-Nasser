@@ -32,17 +32,17 @@
 
 | Field | Your Answer |
 |-------|-------------|
-| **Full Name** | [Write your full name here] |
-| **Student ID** | [Write your student ID here] |
-| **University Email** | [yourid]@std.psau.edu.sa |
-| **GitHub Username** | [your-github-username] |
-| **Repository Link** | [Paste your repository link here] |
+| **Full Name** | [MOHAMED nasser] |
+| **Student ID** | [445050250] |
+| **University Email** | [445050250]@std.psau.edu.sa |
+| **GitHub Username** | [M1N117] |
+| **Repository Link** | [https://github.com/M1N117/OS-Assignment3-Mohamed-Nasser.git] |
  
 ---
 
 ## 🎥 Video Link
 
-**Video Link**: [Paste your video link here]
+**Video Link**: [[Paste your video link here](https://drive.google.com/file/d/1o6GRf75b_EQm7vm2vI6ev71JHrTS1tYW/view?usp=drivesdk)]
 
 > ⚠️ **WARNING:** The video must be **publicly accessible** ("Anyone with the link can view") on **Google Drive**, **YouTube (Unlisted or Public)** or any other cloud file-sharing system. A private, restricted or broken link counts as a **missing video (-1 mark)**.
 >
@@ -240,7 +240,7 @@
 
 **Your Answer:** *(5-7 sentences)*
 
-[Write your answer here.]
+[WI learned that synchronization is important when multiple threads access shared data at the same time. A race condition can happen when two threads read and update the same variable without proper protection. In my code, I used ReentrantLock to protect the ready queue and shared statistics. I also learned that using try and finally helps ensure that a lock is always released. The counting semaphore allows CPU threads to wait until a process becomes available instead of continuously checking the queue. I understood that correct synchronization helps keep shared values consistent.rite your answer here.]
 
 ## Question 2: What was the most challenging part of this assignment?
 
@@ -248,7 +248,7 @@
 
 **Your Answer:** *(5-7 sentences)*
 
-[Write your answer here.]
+[WriteThe most challenging part was understanding how the semaphore coordinates the CPU threads. I had to understand why its initial value should be zero and why each added process releases one permit. I also needed to understand what happens when all processes finish. The termination signal was important because some CPU threads might still be waiting inside acquire(). I used release(totalCPUs) to wake the CPU threads so they could check the completion condition and stop. This helped me understand that synchronization includes both normal execution and thread termination. your answer here.]
 
 ## Question 3: How did you overcome the challenges you faced?
 
@@ -256,7 +256,7 @@
 
 **Your Answer:** *(5-7 sentences)*
 
-[Write your answer here.]
+[WrI worked through the code carefully and focused on understanding each synchronization feature. I reviewed the methods in ReadyQueue and SharedStats to understand which data needed protection. I checked how lock(), unlock(), acquire(), and release() were used. I also examined the program output to compare the expected values with the observed values. After running the final version, I confirmed that all four verification checks passed. This step-by-step approach helped me understand the changes instead of only copying code.ite your answer here.]
 
 ## Question 4: Where can synchronization concepts be applied in real-world applications?
 
@@ -264,19 +264,19 @@
 
 **Your Answer:** *(5-7 sentences)*
 
-[Write your answer here.]
+[Synchronization is useful in banking systems when several transactions access the same account balance. A lock can prevent two transactions from updating the balance at the same time and producing an incorrect result. It is also important in ticket booking systems, where multiple customers may try to reserve the same seat. A semaphore can control access to a limited number of resources, such as available printers or database connections. These examples are similar to my assignment because multiple threads share resources. Synchronization helps protect shared data and coordinate access between different threads.Write your answer here.]
 
 ### Optional: What would you like to learn more about?
 
-[Any topics related to synchronization or operating systems that you're curious about?]
+[AI would like to learn more about deadlocks, thread scheduling, and how operating systems manage multiple threads.ny topics related to synchronization or operating systems that you're curious about?]
 
 ### Optional: How confident do you feel about synchronization concepts now?
 
-[Beginner / Intermediate / Confident. What do you understand well? What needs more practice?]
+[BeIntermediate. I understand the basic purpose of locks, critical sections, and semaphores. I need more practice with deadlocks and more complex multithreaded programs.ginner / Intermediate / Confident. What do you understand well? What needs more practice?]
 
 ### Optional: Feedback on the assignment
 
-[Any comments? Was it helpful? Too easy or hard? Suggestions?]
+[AnyThe assignment was useful because it helped me understand synchronization through a practical Java program. The most helpful part was seeing how locks and semaphores affect multiple CPU threads comments? Was it helpful? Too easy or hard? Suggestions?]
 
 ---
 
@@ -298,10 +298,14 @@
 
 **Your Answer:** *(3-5 sentences)*
 
-[Write your answer here.]
+[WThe original starter can have a race condition when multiple CPUs access the ready queue or update shared counters without proper synchronization. For example, CPU-1 and CPU-2 may read the same value of contextSwitchCount before either thread writes the updated value. If both threads write the same incremented value, one update is lost. This can produce an incorrect result or cause multiple CPUs to access the same process. The problem can also happen without RaceWindow.pause() because thread scheduling and timing can still allow overlapping operations.rite your answer here.]
 
 Verification block of the **original starter**:
-```
+```     ✔
+Completed processes                    expected 11       observed 11       ✔
+Total service time (ms)                expected 61050    observed 61050    ✔
+Busy-waiting polls (must be 0)         expected 0        observed 0        ✔
+All shared values are consisten
 [Paste the verification block (or the exception/watchdog message) of the starter here]
 ```
 
@@ -311,7 +315,17 @@ Verification block of **my final version**:
 ```
 
 **Explanation of the timeline:**
-[Explain the lost update step by step.]
+[Explain the lost upCPU-1 reads contextSwitchCount = 12.
+
+CPU-2 reads the same value, 12.
+
+CPU-1 increments its local result and writes 13.
+
+CPU-2 also writes 13.
+
+The correct result should be 14, but the observed result is 13.
+
+This is called a lost update because one increment disappears.date step by step.]
 
 ## Question 2: Critical Sections and Lock Granularity
 
@@ -321,7 +335,11 @@ Verification block of **my final version**:
 
 **Your Answer:** *(3-5 sentences)*
 
-[Write your answer here.]
+[WritIn the original starter, busy waiting repeatedly checks whether the ready queue contains a process, which wastes CPU time while the queue is empty. In my final code, the semaphore availableProcesses starts at zero because no processes have been added yet. Each call to add() releases one permit, so its value becomes 11 after the 11 initial processes are added, assuming no CPU has acquired a permit yet. Each CPU uses acquire() to block until a process is available. When the last process finishes, release(totalCPUs) wakes the waiting CPU threads so they can detect termination; without this signal, some CPUs could remain blocked forever.
+
+Busy-waiting polls in my original starter run:
+
+[Insert the actual number from your original starter output.e your answer here.]
 
 | Critical section (variable / method) | Lock used | Why it needs protection |
 |---|---|---|
@@ -336,7 +354,11 @@ Verification block of **my final version**:
 
 **Your Answer:** *(3-5 sentences)*
 
-[Write your answer here.]
+[Write youIn the original starter, busy waiting repeatedly checks whether the ready queue contains a process, which wastes CPU time while the queue is empty. In my final code, the semaphore availableProcesses starts at zero because no processes have been added yet. Each call to add() releases one permit, so its value becomes 11 after the 11 initial processes are added, assuming no CPU has acquired a permit yet. Each CPU uses acquire() to block until a process is available. When the last process finishes, release(totalCPUs) wakes the waiting CPU threads so they can detect termination; without this signal, some CPUs could remain blocked forever.
+
+Busy-waiting polls in my original starter run:
+
+[Insert the actual number from your original starter output.r answer here.]
 
 ## Question 4: Classical Problems and Deadlock
 
@@ -347,7 +369,11 @@ Verification block of **my final version**:
 **Your Answer:** *(3-5 sentences)*
 
 **Classical problem and roles**:
-[Name the problem; who is the producer, who is the consumer?]
+[NamProblem: Producer-Consumer (Bounded-Buffer) Problem.
+
+Producers: The main thread when initially adding processes, and CPU workers when re-enqueuing unfinished processes.
+
+Consumers: CPU workers when removing processes from the ready queuee the problem; who is the producer, who is the consumer?]
 
 **Semaphores for a bounded queue (name and initial value)**:
 [Name the three semaphores and their initial values.]
@@ -358,13 +384,15 @@ Verification block of **my final version**:
 ## Summary
 
 **Key concepts I understood through these questions:**
-1.
-2.
+1.Mutual exclusion and critical sections using ReentrantLock
+2.Mutual exclusion and critical sections using ReentrantLock
 3.
 
 **Concepts I need to study more:**
-1.
-2.
+1.Deadlock conditions and prevention.
+
+
+2.Fairness, progress, and bounded waiting in multithreaded programs
 
 ---
 
